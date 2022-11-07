@@ -7,7 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 @Slf4j
@@ -25,14 +27,20 @@ public class OracleCloudSpringbootApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //String querySQL = "SELECT * FROM USERS";
-        List<UserEntity> users = repository.findAll();
 
-        for (UserEntity user:
+
+        List<UserEntity> users = repository.findAll();
+        Optional<UserEntity> user = repository.findById(2L);
+
+        for (UserEntity u:
              users) {
-            log.info(user.getClass() + " " + user.getName() + " " + user.getId());
+            log.info(u.getClass() + " " + u.getName() + " " + u.getId());
 
         }
+
+        user.ifPresent(userEntity -> log.info(userEntity.getClass() + " " + userEntity.getName()));
+
+
 
     }
 }
